@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+figure {
+  @apply flex flex-col items-center;
+}
+
+figure img {
+  @apply !mb-2;
+}

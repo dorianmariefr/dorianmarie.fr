@@ -4,13 +4,19 @@ layout: default
 indexed: true
 ---
 
-<a href="/img/menubar.png"><img src="/img/menubar.png" alt="Menu bar" /></a>
+<figure>
+  <a href="/img/menubar.png"><img src="/img/menubar.png" alt="Menu bar" /></a>
+  <figcaption>Screenshot of my computer</figcaption>
+</figure>
 
 ## Menu bar
 
 ### Apple icon
 
-<a href="/img/menubar/apple.png"><img src="/img/menubar/apple.png" alt="Apple icon" /></a>
+<figure>
+  <a href="/img/menubar/apple.png"><img src="/img/menubar/apple.png" alt="Apple icon" /></a>
+  <figcaption>Apple icon on the top-left of the screen</figcaption>
+</figure>
 
 I use a Macbook Air as my personal laptop, with macOS.
 
@@ -20,7 +26,10 @@ all all the settings mainly.
 
 ### Application menu
 
-<a href="/img/menubar/menu.png"><img src="/img/menubar/menu.png" alt="Application Menu" /></a>
+<figure>
+  <a href="/img/menubar/menu.png"><img src="/img/menubar/menu.png" alt="Application Menu" /></a>
+  <figcaption>Menu on the top-left of the screen next to the Apple icon</figcaption>
+</figure>
 
 It's not a coincidence that this is the Terminal, that's where I spend
 most of my time when I'm not on Chrome, and that's where I write code
@@ -36,7 +45,10 @@ locate the menu item visually for me, very nice.
 
 ### Tray icons
 
-<a href="/img/menubar/tray.png"><img src="/img/menubar/tray.png" alt="Tray icons" /></a>
+<figure>
+  <a href="/img/menubar/tray.png"><img src="/img/menubar/tray.png" alt="Tray icons" /></a>
+  <figcaption>Tray icons on the top-right of the screen</figcaption>
+</figure>
 
 All those tray icons start when my Mac starts. By default I just let the icons be and let them do their job.
 
@@ -59,14 +71,20 @@ All those tray icons start when my Mac starts. By default I just let the icons b
 
 ## Destkop
 
-<a href="/img/desktop.png"><img src="/img/desktop.png" alt="Desktop" /></a>
+<figure>
+  <a href="/img/desktop.png"><img src="/img/desktop.png" alt="Desktop" /></a>
+  <figcaption>A file on my desktop</figcaption>
+</figure>
 
 I use the desktop mainly for temporary screenshots and when saving files from
 Chrome (e.g. kind of downloading).
 
 ## Chrome
 
-<a href="/img/chrome.png"><img src="/img/chrome.png" alt="Chrome" /></a>
+<figure>
+  <a href="/img/chrome.png"><img src="/img/chrome.png" alt="Chrome" /></a>
+  <figcaption>Google Chrome new tab page</figcaption>
+</figure>
 
 I try to have as few tabs open as possible and quit Chrome when I'm not using it
 (true for all apps expect Finder that I can't quit).
@@ -97,7 +115,10 @@ I sometimes go to some chrome:// urls like chrome://net-internals to fix HTTPS o
 
 ## Files
 
-<a href="/img/home.png"><img src="/img/home.png" alt="Home" /></a>
+<figure>
+  <a href="/img/home.png"><img src="/img/home.png" alt="Home" /></a>
+  <figcaption>Finder's in home directory, e.g. <code>/Users/dorianmariefr/</code></figcaption>
+</figure>
 
 I have an `~/src` folder with my code.
 
@@ -116,7 +137,10 @@ I added `~/Music` to look at my music files.
 
 ## Mail
 
-<a href="/img/mail.png"><img src="/img/mail.png" alt="Mail" /></a>
+<figure>
+  <a href="/img/mail.png"><img src="/img/mail.png" alt="Mail" /></a>
+  <figcaption>Mail.app also named Apple Mail</figcaption>
+</figure>
 
 I started with Hotmail, then GMail classic UI, then GMail web 2.0 UI, then Inbox, then GMail, then Hey, then GMail, then Superhuman, and now on Apple Mail, liking it so far.
 
@@ -126,17 +150,24 @@ I use Inbox Zero as you can see.
 
 ## Music
 
-<a href="/img/music.png"><img src="/img/music.png" alt="Music" /></a>
+<figure>
+  <a href="/img/music.png"><img src="/img/music.png" alt="Music" /></a>
+  <figcaption>Music.app also named Apple Music</figcaption>
+</figure>
 
 I listen to music quite a lot and have many artists.
 
 ## Terminal
 
-<a href="/img/terminal.png"><img src="/img/terminal.png" alt="Terminal" /></a>
+<figure>
+  <a href="/img/terminal.png"><img src="/img/terminal.png" alt="Terminal" /></a>
+  <figcaption>Terminal.app default window</figcaption>
+</figure>
 
-And after I put it on the right of the screen:
-
-<a href="/img/terminal-right.png"><img src="/img/terminal-right.png" alt="Terminal Right" /></a>
+<figure>
+  <a href="/img/terminal-right.png"><img src="/img/terminal-right.png" alt="Terminal Right" /></a>
+  <figcaption>Terminal.app once I put it on the right of the screen</figcaption>
+</figure>
 
 I use the Terminal with:
 

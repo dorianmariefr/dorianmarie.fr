@@ -876,10 +876,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 0;
 }
 
-.visible {
-  visibility: visible;
-}
-
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -895,4 +891,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .p-8 {
   padding: 2rem;
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+figure img {
+  margin-bottom: 0.5rem !important;
 }
