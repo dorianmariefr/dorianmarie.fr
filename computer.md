@@ -171,3 +171,118 @@ I use the Terminal with:
 - **fish**: for the shell because of the auto-completion
 - **vim**: for text editing because it's so fast and no need for a new window to manage
 - **ruby**, **rails**, **node**, **yarn**, etc. many many dev tools
+
+## Applications
+
+- **AdBlock.app**: Ad blocker on Safari
+- **Dashlane.app**: I use the Chrome Extension but this could come handy
+- **Docker.app**: Sometimes I need containers to run rubygems.org or test a Dockerfile for CircleCI
+- **Google Chrome.app**: I especially love the Dev Tools and the simplicity in general
+- **KeepingYouAwake.app**: Keeping my Mac awake
+- **Numbers.app**: To view CSV and generate some CSV
+- **Postgres.app**: To manage the PostgreSQL background process
+- **Postico.app**: To manage PostgreSQL databases and tables
+- **Redis.app**: To manage the Redis background process
+- **Safari.app**: Useful to debug websites that don't work on iOS
+- **Sketch.app**: I design a lot of small things with it, mainly for websites
+- **Spectacle.app**: Windows management shortcuts
+- **Xcode.app**: Useful to develop iOS apps but very slow
+- **YubiKey Manager.app**: Manage my yubikeys
+- **zoom.us.app**: I prefer Google Meet but a lot of people use Zoom
+
+## Websites
+
+- **[Hacker News](https://news.ycombinator.com/)**: Interesting articles and comments
+- **localhost:4000**: Making this website (jekyll)
+- **localhost:3000**: Making rails websites
+- **[talent.io](https://www.talent.io)**: Website that matches programmers with companies
+- **[Reddit](https://www.reddit.com)**: /r/ruby, /r/rails for ruby related content, /r/iphone, /r/apple for apple related content, also /r/github and /r/stripe. Sometimes looking at /r/all
+- **[Twitter](https://twitter.com)**: Mostly interesting and ruby-related content
+- **[WhatsApp](https://web.whatsapp.com)**: I have my WhatsApp, my calls and texts go through my computer so it's easier to manage them
+- **[Cloudflare](https://www.cloudflare.com)**: Manage my DNS mainly
+- **[Y Combinator](https://www.ycombinator.com)**: Startup School, Jobs and great content
+
+## Tools
+
+### Vim
+
+Here is my `.vimrc`:
+
+```vim
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+set nobackup
+set nowritebackup
+set noswapfile
+set nocompatible
+set shell=/bin/bash
+set viminfo='20,<1000
+set backspace=indent,eol,start
+set whichwrap+=<,>,[,]
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/vundle'
+Plugin 'bogado/file-line'
+Plugin 'yuezk/vim-js'
+Plugin 'maxmellon/vim-jsx-pretty'
+Plugin 'tpope/vim-rails'
+Plugin 'slim-template/vim-slim'
+
+call vundle#end()
+
+filetype plugin indent on
+syntax on
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+autocmd BufWritePre * :call TrimWhitespace()
+
+" Go to the last cursor location when a file is opened, unless this is a
+" git commit (in which case it's annoying)
+au BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != "gitcommit" |
+        \ execute("normal `\"") |
+    \ endif
+```
+
+### Git
+
+Here is my `.gitconfig`:
+
+```ruby
+[user]
+  email = dorian@dorianmarie.fr
+  name = Dorian Marié
+[alias]
+  co = checkout
+  cm = commit
+  cmm = commit -m
+  dfs = diff --staged
+  s = status
+  r = reset
+  df = diff
+  b = branch
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  cp = cherry-pick
+[push]
+  default = current
+[core]
+  excludesfile = /Users/dorianmariefr/.gitignore_global
+[init]
+  defaultBranch = master
+[pull]
+  rebase = false
+```
+
+## Questions? Comments? Feedback?
+
+Send me an email at [dorian@dorianmarie.fr](mailto:dorian@dorianmarie.fr)
+and/or [on Twitter (@dorianmariefr)](https://twitter.com/dorianmariefr).

@@ -65,6 +65,8 @@ PLATFORMS
 DEPENDENCIES
   foreman
   jekyll
+  kramdown
+  rouge
   webrick
 
 BUNDLED WITH
