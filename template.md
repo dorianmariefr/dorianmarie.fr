@@ -6,7 +6,7 @@ indexed: true
 
 A simple template could be:
 
-```liquid
+```
 Hello {{user.first_name}}
 ```
 
@@ -22,7 +22,7 @@ Template.new(template).render(
 
 A template could be more complex like:
 
-```liquid
+```
 {define render(item)}
   <p>{{link_to(item.user.name, item.user.url)}}</p>
   
