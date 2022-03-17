@@ -214,3 +214,29 @@ Without parsing the inside of the interpolations or the expressions:
         empty.as(:text).repeat(1, 1)
     end
 ```
+
+### Variables
+
+If I take a ruby program as:
+
+```
+user.first_name
+```
+
+The syntax tree is:
+
+```lisp
+(program
+  (statements
+    (call
+      (vcall
+        (ident "user")
+      )
+      (period ".")
+      (ident "first_name")
+    )
+  )
+)
+```
+
+Using `stree ast` from [`syntax_tree`](https://github.com/ruby-syntax-tree/syntax_tree).
