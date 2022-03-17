@@ -31,11 +31,11 @@ A template could be more complex like:
   <p>{{link_to(item.created_at.to_formatted_s(:long), item.url)}}</p>
   
   {if item.parent}
-    {render(item.parent)}
+    {{render(item.parent)}}
   {end}
 {end}
 
-{render(item)}
+{{render(item)}}
 ```
 
 We will need a parser and an interpreter. I prefer to write both in ruby.
