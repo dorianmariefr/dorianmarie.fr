@@ -91,9 +91,9 @@ I add another `repeat(1)` because I will want to have an array of matches at the
 
 `empty.as(:text).repeat(1, 1)` is just so that it gives the same format for the output when an empty string is passed.
 
-### Empty Interpolations
+### Interpolations with `{{}}`
 
-I would like to be able to do `Hello {{}}` (which would render `Hello `) and `Hello \{\{World\}\}` which would render `Hello {{World}}`) (e.g. escaping the interpolation)
+I would like to be able to do `Hello {{""}}` (which would render `Hello `) and `Hello \{\{World\}\}` which would render `Hello {{World}}`) (e.g. escaping the interpolation).
 
 As tests, I write:
 
@@ -165,3 +165,52 @@ end
 ```
 
 For now the expression in the interpolation can be any character except `{{` or `}}` but we are going to change that later.
+
+### Expressions with `{}`
+
+Without parsing the inside of the interpolations or the expressions:
+
+```ruby
+  context "with an expression" do
+    let!(:template) { "{if item.parent}{{markdown(item.parent.content)}}{end}" }
+    it {
+      is_expected.to eq([
+        { expression: "if item.parent" },
+        { interpolation: "markdown(item.parent.content)" },
+        { expression: "end" },
+      ])
+    }
+  end
+```
+
+```ruby
+    rule(:interpolation) do
+      opening_interpolation.ignore >> statement >> closing_interpolation.ignore
+    end
+
+    # expression
+    rule(:opening_expression) { opening_bracket }
+    rule(:closing_expression) { closing_bracket }
+    rule(:expression) do
+      opening_expression.ignore >> statement >> closing_expression.ignore
+    end
+
+    # statement
+    rule(:statement_character) do
+      opening_expression.absent? >>
+        closing_expression.absent? >>
+        opening_interpolation.absent? >>
+        closing_interpolation.absent? >>
+        any
+    end
+    rule(:statement) { statement_character.repeat(0) }
+
+    rule(:template) do
+      (
+        interpolation.as(:interpolation) |
+        expression.as(:expression) |
+        text.as(:text)
+      ).repeat(1) |
+        empty.as(:text).repeat(1, 1)
+    end
+```
