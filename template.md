@@ -240,3 +240,23 @@ The syntax tree is:
 ```
 
 Using `stree ast` from [`syntax_tree`](https://github.com/ruby-syntax-tree/syntax_tree).
+
+So I'm going to do something similar, e.g.:
+
+```ruby
+[
+  interpolation: {
+    call: {
+      left: {
+        call: {
+          left: { name: "user" }
+        }
+      },
+      operator: ".",
+      right: {
+        name: "first_name"
+      }
+    }
+  }
+]
+```
