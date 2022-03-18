@@ -25,11 +25,11 @@ A template could be more complex like:
 ```
 {define render(item)}
   <p>{{link_to(item.user.name, item.user.url)}}</p>
-  
+
   {{item.content | markdown}}
-  
+
   <p>{{link_to(item.created_at.to_formatted_s(:long), item.url)}}</p>
-  
+
   {if item.parent}
     {{render(item.parent)}}
   {end}
@@ -215,7 +215,7 @@ Without parsing the inside of the interpolations or the expressions:
     end
 ```
 
-### Variables
+### Calls
 
 If I take a ruby program as:
 
@@ -244,19 +244,358 @@ Using `stree ast` from [`syntax_tree`](https://github.com/ruby-syntax-tree/synta
 So I'm going to do something similar, e.g.:
 
 ```ruby
-[
-  interpolation: {
-    call: {
-      left: {
-        call: {
-          left: { name: "user" }
+  context "with an interpolation" do
+    let!(:template) { "Hello {{user.first_name}}" }
+    it {
+      is_expected.to eq([
+        { text: "Hello " },
+        {
+          interpolation: [
+            {
+              call: {
+                value: { name: "user" },
+                operator: ".",
+                call: { value: { name: "first_name" } }
+              }
+            }
+          ]
         }
-      },
-      operator: ".",
-      right: {
-        name: "first_name"
-      }
+      ])
     }
-  }
-]
+  end
 ```
+
+And with the parser as:
+
+```ruby
+    # statement
+    rule(:statement) { call.as(:call) }
+    rule(:statements) { statement.repeat(1) }
+
+    # call
+    rule(:call) do
+      (value.as(:value) >> operator.as(:operator) >> call.as(:call)) |
+        value.as(:value)
+    end
+
+    # value
+    rule(:value) { name.as(:name) }
+
+    # name
+    rule(:name_character) do
+      opening_expression.absent? >>
+        closing_expression.absent? >>
+        opening_interpolation.absent? >>
+        closing_interpolation.absent? >>
+        operator.absent? >>
+        any
+    end
+    rule(:name) { name_character.repeat(1) }
+
+    # operator
+    rule(:operator_character) do
+      dot
+    end
+    rule(:operator) { operator_character.repeat(1) }
+```
+
+### Values
+
+#### Strings
+
+I would like to be able to write `"Dorian"` or `'Dorian'` or `'Dorian\'s'`.
+
+And as a bonus I would like to be able to write `"\n"`, `"\t"`, `"\\"`
+
+The parser:
+
+```ruby
+    # string
+    rule(:escaped_string_character) do
+      (backslash >> (n | t)) | (backslash.ignore >> any)
+    end
+    rule(:double_quote_string_character) do
+      escaped_string_character | (double_quote.absent? >> any)
+    end
+    rule(:single_quote_string_character) do
+      escaped_string_character | (single_quote.absent? >> any)
+    end
+    rule(:double_quote_string) do
+      double_quote.ignore >>
+        double_quote_string_character.repeat(0) >>
+        double_quote.ignore
+    end
+    rule(:single_quote_string) do
+      single_quote.ignore >>
+        single_quote_string_character.repeat(0) >>
+        single_quote.ignore
+    end
+    rule(:string) do
+      double_quote_string | single_quote_string
+    end
+```
+
+And one of the tests:
+
+```ruby
+    context "escaped characters" do
+      let!(:template) { "{'Dorian\\'s\\nOr not'}" }
+
+      it {
+        is_expected.to eq([
+          {
+            expression: [
+              {
+                value: { string: "Dorian's\\nOr not" },
+              }
+            ]
+          }
+        ])
+      }
+    end
+```
+
+I will deal with the escaped characters (`\n` and `\t`) in the interpreter.
+
+### String interpolations
+
+Because I'm also having fun making this language :).
+
+So, for instance `{{"Hello {{user}}"}}`
+
+The parser (I'm reusing the `interpolation` and `expression` rules):
+
+```ruby
+    # string
+    rule(:string_character) do
+      opening_expression.absent? >>
+        opening_interpolation.absent? >>
+        any
+    end
+    rule(:escaped_string_character) do
+      (backslash >> (n | t)) | (backslash.ignore >> any)
+    end
+    rule(:double_quote_string_character) do
+      escaped_string_character | (double_quote.absent? >> string_character)
+    end
+    rule(:single_quote_string_character) do
+      escaped_string_character | (single_quote.absent? >> string_character)
+    end
+    rule(:double_quote_string) do
+      double_quote.ignore >>
+        (
+          (
+            interpolation.as(:interpolation) |
+            expression.as(:expression) |
+            double_quote_string_character.repeat(1).as(:text)
+          ).repeat(0)
+        ) >> double_quote.ignore
+    end
+    rule(:single_quote_string) do
+      single_quote.ignore >>
+        (
+          (
+            interpolation.as(:interpolation) |
+            expression.as(:expression) |
+            single_quote_string_character.repeat(1).as(:text)
+          ).repeat(0)
+        ) >> single_quote.ignore
+    end
+    rule(:string) { double_quote_string | single_quote_string }
+```
+
+And a test:
+
+```ruby
+    context 'interpolation' do
+      let!(:template) { '{{"Hello {{user}}"}}' }
+
+      it do
+        is_expected.to eq(
+          [
+            {
+              interpolation: [
+                {
+                  value: {
+                    string: [
+                      { text: 'Hello ' },
+                      { interpolation: [{ value: { name: 'user' } }] }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        )
+      end
+    end
+```
+
+A string can now have many parts, `text` parts, `interpolation` parts and `expression` parts kinda like a template itself :)
+
+
+### Numbers
+
+Because I'm doing this for fun, I'm going to do base 2 (binary), base 8 (octal), base 10 (decimal), and base 16 (hexadecimal)
+
+#### Base 10
+
+Examples of base 10 numbers:
+
+- `0`
+- `12`
+- `13.2`
+- `1_000`
+- `1_000.59`
+- `1e10`
+- `-10`
+- `1 234 567.50"
+- `1,450.12`
+
+I'm gonna write a separate parser for numbers:
+
+```ruby
+require 'parslet'
+
+class Template
+  class Number
+    # 12,735.23 is parsed as { base_10: { whole: '12735', decimal: '23' } }
+    class Parser < Parslet::Parser
+      rule(:minus) { str('-') }
+      rule(:plus) { str('+') }
+      rule(:dot) { str('.') }
+      rule(:underscore) { str('_') }
+      rule(:comma) { str(',') }
+      rule(:e) { str('e') }
+      rule(:zero) { str('0') }
+      rule(:one) { str('1') }
+      rule(:two) { str('2') }
+      rule(:three) { str('3') }
+      rule(:four) { str('4') }
+      rule(:five) { str('5') }
+      rule(:six) { str('6') }
+      rule(:seven) { str('7') }
+      rule(:eight) { str('8') }
+      rule(:nine) { str('9') }
+
+      # space
+      rule(:space) { match('\s') }
+
+      # infinity
+      rule(:infinity) { str('Infinity') }
+
+      # base 10
+      rule(:base_10_digit) do
+        zero |
+          one |
+          two |
+          three |
+          four |
+          five |
+          six |
+          seven |
+          eight |
+          nine
+      end
+
+      rule(:base_10_number) do
+        (
+          base_10_digit |
+            space.ignore |
+            underscore.ignore |
+            comma.ignore
+        ).repeat(1).as(:whole) >> (
+          dot.ignore >> (
+            base_10_digit |
+              space.ignore |
+              underscore.ignore
+          ).repeat(1)
+        ).as(:decimal).maybe >> (
+          e.ignore >> base_10_number
+        ).as(:exponent).maybe
+      end
+
+      rule(:number) do
+        (minus | plus).as(:sign).maybe >> (
+          infinity.as(:infinity) |
+          base_10_number.as(:base_10)
+        )
+      end
+      root(:number)
+    end
+  end
+end
+```
+
+Then I just need to import the number parser in the template parser:
+
+```ruby
+rule(:number) { Template::Number::Parser.new }
+```
+
+#### Base 16, 8 and 2
+
+Pretty simple to parse, it's just `0xFF`, `0o17` or `0b10` for instance
+
+```ruby
+      # base 16
+      rule(:base_16_digit) do
+        zero | one | two | three | four | five | six | seven | eight | nine |
+          a | b | c | d | e | f
+      end
+      rule(:base_16_number) do
+        zero.ignore >> x.ignore >> base_16_digit.repeat(1)
+      end
+
+      # base 8
+      rule(:base_8_digit) do
+        zero | one | two | three | four | five | six | seven
+      end
+      rule(:base_8_number) do
+        zero.ignore >> o.ignore >> base_8_digit.repeat(1)
+      end
+
+      # base 2
+      rule(:base_2_digit) do
+        zero | one
+      end
+      rule(:base_2_number) do
+        zero.ignore >> b.ignore >> base_2_digit.repeat(1)
+      end
+```
+
+### Boolean
+
+Easy, `true` or `false`
+
+```ruby
+    # boolean
+    rule(:boolean) { str('true') | str('false') }
+
+    # value
+    rule(:value) do
+      boolean.as(:boolean) | number.as(:number) | string.as(:string) |
+        name.as(:name)
+    end
+```
+
+### `nothing`
+
+I think it's more explicit than `nil`, `null`, `undefined`, `void`, etc.
+
+```ruby
+    # nothing
+    rule(:nothing) { str('nothing') }
+
+    # value
+    rule(:value) do
+      nothing.as(:nothing) | boolean.as(:boolean) | number.as(:number) |
+        string.as(:string) | name.as(:name)
+    end
+```
+
+And now onto the meat:
+
+### Lists
+
+Can be either an explicit list e.g. `[1, 2, 3]` or an implicit list, e.g. `1, 2, 3`
