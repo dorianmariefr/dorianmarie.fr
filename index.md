@@ -8,7 +8,7 @@ indexed: false
 Hi 👋<br>
 I'm french 🇫🇷<br>
 I'm a programmer 🧑‍💻<br>
-<a href="/resume/Dorian Marié - CV.pdf">My resume</a> 📁
+<a href="/resume/Dorian Marie - CV.pdf">My resume</a> 📁
 
 I like working with: ❤️<br>
 <b>Ruby</b> with Ruby on Rails 💎<br>
