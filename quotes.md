@@ -15,3 +15,11 @@ indexed: true
 > Better now than never
 
 > If not me, who? If not now, when? If not here, where?
+
+> Live and let live
+
+> Think global, act local
+
+> Just do it
+
+> Come as you are
