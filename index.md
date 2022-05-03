@@ -18,11 +18,3 @@ I like working with: ❤️<br>
 My email is <a href="mailto:dorian@dorianmarie.fr">dorian@dorianmarie.fr</a> ✉️<br>
 My GitHub is <a href="https://github.com/dorianmariefr">@dorianmariefr</a> 🐙<br>
 My Twitter is <a href="https://twitter.com/dorianmariefr">@dorianmariefr</a> 🐦<br>
-
-<ul>
-  {% for page in site.pages %}
-    {% if page.indexed %}
-      <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-    {% endif %}
-  {% endfor %}
-</ul>
