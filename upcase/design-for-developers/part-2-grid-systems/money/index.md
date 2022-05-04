@@ -59,25 +59,25 @@ title: Money
 <div class="pb-8">
   <div>
     <span class="font-bold font-mono">&nbsp;&nbsp;&nbsp;425,23 €</span>
-    <a href="accounts/1">
+    <a href="accounts/savings">
       Main
     </a>
   </div>
   <div>
     <span class="font-bold font-mono">&nbsp;4 215,58 €</span>
-    <a href="accounts/1">
+    <a href="accounts/savings">
       Savings
     </a>
   </div>
   <div>
     <span class="font-bold font-mono">&nbsp;2 000,00 €</span>
-    <a href="accounts/1">
+    <a href="accounts/savings">
       Summer 2022
     </a>
   </div>
   <div>
     <span class="font-bold font-mono">10 000,00 €</span>
-    <a href="accounts/1">
+    <a href="accounts/savings">
       Tesla Model 3
     </a>
   </div>

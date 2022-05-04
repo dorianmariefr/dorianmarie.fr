@@ -1,0 +1,12 @@
+---
+layout: money
+title: Savings
+---
+
+<h2>Savings</h2>
+
+<h3 class="font-mono">4 215<span class="text-sm">,58 €</span></h3>
+
+<p><a href="edit">Edi</a></p>
+
+<p class="text-red-600"><a href="delete">Edi</a></p>
