@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "tailwindcss": "*",
     "@tailwindcss/typography": "*"
   }
 }

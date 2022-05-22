@@ -12,11 +12,20 @@ I'm a programmer 🧑‍💻<br>
 
 I like working with: ❤️<br>
 <b>Ruby</b> with Ruby on Rails 💎<br>
-<b>Javascript</b> with React ⚛️  and/or Stimulus ⚡️<br>
+<b>JavaScript</b> with React ⚛️  and/or Stimulus ⚡️<br>
 <b>SQL</b> with PostgreSQL 🐘<br>
 
-My email is <a href="mailto:dorian@dorianmarie.fr">dorian@dorianmarie.fr</a> ✉️<br>
+My personal email is <a href="mailto:dorian@dorianmarie.fr">dorian@dorianmarie.fr</a> ✉️<br>
+My professional email is <a href="mailto:dorian@thoughtbot.com">dorian@thoughtbot.com</a> ✉️<br>
 My GitHub is <a href="https://github.com/dorianmariefr">@dorianmariefr</a> 🐙<br>
 My Twitter is <a href="https://twitter.com/dorianmariefr">@dorianmariefr</a> 🐦<br>
 
-<a class="no-underline" href="/upcase/design-for-developers/part-2-grid-systems/money">.</a>
+## Posts
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
