@@ -1,35 +1,22 @@
 ---
 layout: default
-title: Rate-limiting
+title: Adding a rate-limiting section to thoughtbot's guides
 date: 2022-05-22 17:04 +0200
 ---
 
 I was reading [thoughtbot's guides](https://github.com/thoughtbot/guides) just
-before joining thoughtbot.
-
-It's a public repository so anybody can submit pull requests and
-[I
-did](https://github.com/thoughtbot/guides/pulls?q=is%3Apr+is%3Aclosed+author%3Adorianmariefr)
-(missing link, avoiding acronym, typo, broken link).
-
-When reading
-[The thoughtbot Guide to Application Security](https://github.com/thoughtbot/guides/blob/main/security/application.md)
-I noticed it was missing an important part of making apps secure in my opinion
-which is rate limiting.
-
-## Explanation
-
-In true thoughtbot fashion I'm going to explain like we do for commit messages:
+before joining thoughtbot when I noticed the security page was missing a section
+about rate-limiting.
 
 ### Why was this change necessary?
 
 People reading this guide might feel like they have a pretty secure application
 after reading the guide.
 
-But those applications could be vulnerable to
+But those applications could be vulnerable to:
 
 - bots trying many email/password combinations (credentials stuffing, brute force attacks);
-- bots upload a lot of content like links in comments (spam);
+- bots uploading a lot of links in comments (spam);
 - bots hitting slow endpoint to exhaust resources ((Distributed) Denial of Service)
 - etc.
 

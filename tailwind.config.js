@@ -1,4 +1,4 @@
 module.exports = {
-  content: ["**/*.md"],
+  content: ["**/*.md", "**/*.html"],
   plugins: [require("@tailwindcss/typography")],
 };

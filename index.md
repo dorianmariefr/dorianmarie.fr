@@ -2,7 +2,6 @@
 title: Thoughts
 title: Dorian Marié
 layout: default
-indexed: false
 ---
 
 Hi 👋<br>
