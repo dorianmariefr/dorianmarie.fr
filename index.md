@@ -18,13 +18,3 @@ My personal email is <a href="mailto:dorian@dorianmarie.fr">dorian@dorianmarie.f
 My professional email is <a href="mailto:dorian@thoughtbot.com">dorian@thoughtbot.com</a> ✉️<br>
 My GitHub is <a href="https://github.com/dorianmariefr">@dorianmariefr</a> 🐙<br>
 My Twitter is <a href="https://twitter.com/dorianmariefr">@dorianmariefr</a> 🐦<br>
-
-## Posts
-
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
